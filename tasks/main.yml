@@ -1,0 +1,21 @@
+- name: Install dependencies
+  ansible.builtin.apt:
+    name: gnupg
+    state: present
+
+- name: Add public key
+  ansible.builtin.get_url:
+    url: https://download.spotify.com/debian/pubkey_C85668DF69375001.gpg
+    dest: /etc/apt/keyrings/spotify.gpg
+    mode: "644"
+
+- name: Add apt repository
+  ansible.builtin.apt_repository:
+    repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/spotify.gpg] https://repository.spotify.com stable non-free
+    state: present
+    update_cache: true
+
+- name: Install latest version
+  ansible.builtin.apt:
+    name: spotify-client
+    state: present
