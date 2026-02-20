@@ -5,13 +5,14 @@
 
 - name: Add public key
   ansible.builtin.get_url:
-    url: https://download.spotify.com/debian/pubkey_C85668DF69375001.gpg
-    dest: /etc/apt/keyrings/spotify.gpg
+    url: https://download.spotify.com/debian/pubkey_5384CE82BA52C83A.asc
+    dest: /etc/apt/trusted.gpg.d/spotify.gpg
     mode: "644"
 
 - name: Add apt repository
   ansible.builtin.apt_repository:
-    repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/spotify.gpg] https://repository.spotify.com stable non-free
+    repo: deb https://repository.spotify.com stable non-free
+    filename: spotify.list
     state: present
     update_cache: true
 
